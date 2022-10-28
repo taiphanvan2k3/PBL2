@@ -23,7 +23,6 @@ int main() {
 	this->setMK(L"@@admin001");
 	*/
 	//[ˈfʊt.bɑːl]
-	//hello
 	HeThong h;
 	h.MAIN(); 
 }
