@@ -82,21 +82,18 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 //th=0: ứng với lúc manager chọn chức năng thêm từ vựng đóng góp
 void Manager::themTuVung(vocab* v, int th) {
 	wchar_t str[30];
-	if (th == 1) {
-		wprintf(L"Bạn cần điền các thông tin sau để hoàn tất việc thêm từ vựng vào TỪ ĐIỂN:\n");
-		wprintf(L"Mời bạn nhập từ vựng:");
-		_getws_s(str);
-		formatInput(str);
-		convert(str);
-	}
-	if (str == NULL)
-		return;
+	wprintf(L"Bạn cần điền các thông tin sau để hoàn tất việc thêm từ vựng vào TỪ ĐIỂN:\n");
+	wprintf(L"Mời bạn nhập từ vựng:");
+	_getws_s(str);
+	formatInput(str);
+	convert(str);
 	vocab* tam = this->vocabHeThong->search(str);
 	if (tam != NULL)
 		wprintf(L"Từ vựng bạn muốn thêm đã có trong từ điển rồi.\n");
 	else {
-		if (th)
-			v->setEnglish(str);
+		if (th == 0)
+			listContribute->erase(str);
+		v->setEnglish(str);
 		v->nhap_tt_1_vocab();
 		this->vocabHeThong->insert(v);
 		this->vocabMeaning->insert(v);

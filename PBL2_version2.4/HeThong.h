@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"Manager.h"
-#include"Menu.h"
+//#include"Menu.h"
 class HeThong :public Menu {
 private:
 	Manager* manager;
@@ -14,9 +14,6 @@ public:
 	~HeThong();
 	HashtableUser* getListUser();
 	void docFileListAccount();
-
-	//Chức năng đăng nhập
-	void getMkInput(wchar_t mk[], int x, int y);
 	account* Login(int& phanQuyen);
 
 	//Chức năng đăng kí

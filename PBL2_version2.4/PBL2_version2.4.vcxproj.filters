@@ -45,6 +45,9 @@
     <ClInclude Include="vocab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MouseListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HashtableVocab.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseListener.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

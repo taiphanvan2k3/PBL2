@@ -41,7 +41,8 @@ void textcolor(int text_color, int backgound_color);
 void gotoxy(int x, int y);
 //Bật,tắt hiển thị con trỏ chuột
 void ShowCur(int CursorVisibility);
-
+//Lấy mật khẩu input và in ra dưới dạng *
+void getMKInput(wchar_t mk[], int x, int y);
 //Note:tenplate: chỉ được định nghĩa trong file.h
 template<class T>
 void deleteLinkList(T* head) {

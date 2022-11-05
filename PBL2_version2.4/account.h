@@ -40,7 +40,7 @@ public:
 	//HashtableVocab* getVocabHeThong();
 	HashtableVocab* getVocabHeThong();
 	void InTuVungHeThong();
-
+	void doiMatKhau();
 	void xemThongTinTaiKhoan();
 	//Các phương thức ảo sau tuỳ thuộc vào đối tượng mà có cách định nghĩa khác nhau
 	virtual void themTuVung(vocab* v, int th = 1) = 0;

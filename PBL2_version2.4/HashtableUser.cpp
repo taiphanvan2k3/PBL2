@@ -19,7 +19,8 @@ void HashtableUser::deleteUser(wchar_t tk[]) {
 	user* after = heads[id], * before = NULL;
 	while (after != NULL && wstrcmp(after->getTK(), tk) != 0) {
 		before = after;
-		after = after->getNext();
+		/*after = after->getNext();*/
+		after = after->next;
 	}
 	if (after == NULL) {
 		setcolor(4);
@@ -33,8 +34,10 @@ void HashtableUser::deleteUser(wchar_t tk[]) {
 		setcolor(7);
 		after->xemThongTinTaiKhoan();
 		if (after == heads[id])
-			heads[id] = after->getNext();
-		else before->setNext(after->getNext());
+			/*heads[id] = after->getNext();*/
+			heads[id] = after->next;
+		else /*before->setNext(after->getNext());*/
+			before->next = after->next;
 		if (after->isExistFileAlbum())
 			after->deleteFileAlbum();
 		delete after;
@@ -51,7 +54,8 @@ void HashtableUser::displayListUser() {
 		user* tam = heads[l->data];
 		while (tam) {
 			tam->xemThongTinTaiKhoan();
-			tam = tam->getNext();
+			/*tam = tam->getNext();*/
+			tam = tam->next;
 		}
 		l = l->next;
 	}
@@ -68,7 +72,8 @@ void HashtableUser::xemTaiKhoanUser() {
 		user* tam = heads[l->data];
 		while (tam) {
 			wcout << "\t\t" << left << setw(10) << stt++ << "\t" << tam->getTK() << endl;
-			tam = tam->getNext();
+			/*tam = tam->getNext();*/
+			tam = tam->next;
 		}
 		l = l->next;
 	}
@@ -87,8 +92,8 @@ void HashtableUser::syncVocab(vocab* updatedVocab) {
 			if (temp != NULL)
 				temp->updateData(updatedVocab);
 			//*temp = *updatedVocab;
-		//tam = tam->next;
-			tam = tam->getNext();
+			tam = tam->next;
+			//tam = tam->getNext();
 		}
 		l = l->next;
 	}
@@ -110,7 +115,8 @@ void HashtableUser::ghiFileTkMk() {
 			fwprintf(f, L"%s,%s", tam->getTK(), tam->getMK());
 			if (idx < n)
 				fputwc(L'\n', f);
-			tam = tam->getNext();
+			/*tam = tam->getNext();*/
+			tam = tam->next;
 		}
 		l = l->next;
 	}

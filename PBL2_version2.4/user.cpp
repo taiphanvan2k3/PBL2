@@ -124,6 +124,7 @@ void user::traCuuTuVungAnhViet() {
 		setcolor(4);
 		wcout << L"Từ vựng bạn cần tra cứu hiện tại vẫn chưa có trong từ điển." << endl;
 		wcout << L"Hệ thống xin ghi nhận đóng góp của bạn và sẽ xem xét việc thêm từ vựng bạn vừa tra cứu vào từ điển hệ thống." << endl;
+		setcolor(7);
 		this->listContribute->push_back(str);
 	}
 	else {
@@ -326,6 +327,79 @@ void user::gameChonDapAnDung() {
 	setcolor(7);
 }
 
+void user::gameChonDapAnDung2() {
+	//Tạo 1 mảng các vocab với số lượng lấy ra từ getSize album shuffle mảng đó
+	//Duyệt mảng ,chọn 3 nghĩa khác từ listString các nghĩa vn có được lúc loadDuLieu
+	//shuffle 4 option đó
+	vocab* list = NULL;
+	int n = 0;
+	this->vocabHeThong->convertToArray(list, n);
+	shuffle(list, n);
+	srand((unsigned int)time(NULL));
+	int score = 0, right = 0;
+	for (int i = 0; i < n; i++) {
+		system("cls");
+		gotoxy(80, 1);
+		setcolor(2);
+		wcout << L"Điểm số của bạn hiện tại:" << score << endl;
+		if (i != 0) {
+			gotoxy(80, 2);
+			wcout << L"Đúng:" << right << "\tSai:" << i - right << endl;
+		}
+		//Đáp án đúng:
+		wstring right_answer = list[i].getEnglish();
+		wstring option[4];
+		option[0] = list[i].getEnglish();
+		int pos1 = i, pos2 = i, pos3 = i;
+		do {
+			pos1 = rand() % n;
+		} while (pos1 == i);
+
+		do {
+			pos2 = rand() % n;
+		} while (pos2 == i || pos2 == pos1);
+
+		do {
+			pos3 = rand() % n;
+		} while (pos3 == i || pos3 == pos1 || pos3 == pos2);
+
+		//Sau khi random ra 4 index khác nhau ta tiến hành cho vào mảng rồi shuffle mảng
+		//này lên
+		option[1] = list[pos1].getEnglish();
+		option[2] = list[pos2].getEnglish();
+		option[3] = list[pos3].getEnglish();
+		shuffle(option, 4);
+		wstring question = list[i].toStringListVN();
+		MouseListener m;
+		wstring answer = m.getAnswer(option, question);
+		gotoxy(0, 10);
+		if (answer == L"Thoát")
+			break;
+		if (answer == right_answer) {
+			right++;
+			setcolor(2);
+			wcout << L"->Bạn đã trả lời chính xác." << endl;
+			score += list[i].getPoint();
+			wcout << L"->Điểm số của bạn vừa được cộng thêm " << list[i].getPoint() << endl;
+		}
+		else {
+			setcolor(4);
+			wcout << L"->Câu trả lời của bạn chưa chính xác." << endl;
+			for (int i = 0; i < 4; i++)
+				if (option[i] == right_answer) {
+					setcolor(2);
+					wcout << L"Câu trả lời chính xác là:" << (wchar_t)(i + L'A') << "." << option[i] << endl;
+					break;
+				}
+		}
+		ShowCur(0);
+		int temp = _getch();
+	}
+	system("cls");
+	setcolor(3);
+	wcout << L"Bạn vừa hoàn thành việc ôn tập từ vựng thông qua trò chơi trắc nghiệm.Hẹn gặp lại bạn !!!" << endl;
+	setcolor(7);
+}
 //Kiểm tra file có tồn tại không trước khi tiến hành xoá
 bool user::isExistFileAlbum() {
 	wchar_t path[100];

@@ -11,8 +11,8 @@ vocab* HashtableMeaning::search(wstring str) {
 	while (tam) {
 		if (tam->toStringListVN() == str)
 			return tam;
-		//tam = tam->next;
-		tam = tam->getNext();
+		tam = tam->next;
+		//tam = tam->getNext();
 	}
 	return NULL;
 }
@@ -38,8 +38,8 @@ bool HashtableMeaning::checkIsExist(vocab* x) {
 		while (temp) {
 			if (wstrcmp(temp->getEnglish(), x->getEnglish()) == 0)
 				return true;
-			//temp = temp->next;
-			temp = temp->getNext();
+			temp = temp->next;
+			//temp = temp->getNext();
 		}
 		return false;
 	}
@@ -77,8 +77,8 @@ void HashtableMeaning::traCuu(wstring str) {
 	else {
 		while (temp) {
 			wcout << "\n\t+" << temp->getTuLoai() << ":" << temp->getEnglish();
-			//temp = temp->next;
-			temp = temp->getNext();
+			temp = temp->next;
+			//temp = temp->getNext();
 		}
 		wcout << endl;
 	}

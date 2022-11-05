@@ -1,5 +1,4 @@
-﻿
-#include"Menu.h"
+﻿#include"Menu.h"
 
 Menu::Menu() {
 
@@ -103,7 +102,8 @@ void Menu::updateTask(wstring task[], int th) {
 		task[6] = L"In thông tin danh sách người dùng.";
 		task[7] = L"Xem thông tin của một user.";
 		task[8] = L"Xoá tài khoản user.";
-		task[9] = L"Đăng xuất.";
+		task[9] = L"Đổi mật khẩu.";
+		task[10] = L"Đăng xuất.";
 	}
 	else {
 		//task user
@@ -114,6 +114,7 @@ void Menu::updateTask(wstring task[], int th) {
 		task[4] = L"Xem từ vựng album cá nhân.";
 		task[5] = L"Xoá từ vựng ra khỏi album.";
 		task[6] = L"Ôn tập kiến thức.";
-		task[7] = L"Đăng xuất.";
+		task[7] = L"Đổi mật khẩu.";
+		task[8] = L"Đăng xuất.";
 	}
 }

@@ -232,3 +232,28 @@ void ShowCur(int CursorVisibility)
 	ConCurInf.bVisible = CursorVisibility;
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
+
+void getMKInput(wchar_t mk[], int x, int y) {
+	int num_mk = 0;
+	while (num_mk + 1 < 30) {
+		gotoxy(x + num_mk, y);
+		wchar_t c = _getch();
+		//Phím enter
+		if (c == 13) {
+			mk[num_mk] = '\0';
+			break;
+		}
+		//Phím delete
+		else if (c == 8) {
+			if (num_mk > 0) {
+				num_mk--;
+				gotoxy(x + num_mk, y);
+				wcout << L" ";
+			}
+		}
+		else {
+			mk[num_mk++] = c;
+			wcout << "*";
+		}
+	}
+}

@@ -89,32 +89,6 @@ void HeThong::docFileListAccount() {
 	}
 	fclose(f);
 }
-
-//Chức năng đăng nhập
-void HeThong::getMkInput(wchar_t mk[], int x, int y) {
-	int num_mk = 0;
-	while (num_mk + 1 < 30) {
-		gotoxy(x + num_mk, y);
-		wchar_t c = _getch();
-		//Phím enter
-		if (c == 13) {
-			mk[num_mk] = '\0';
-			break;
-		}
-		//Phím delete
-		else if (c == 8) {
-			if (num_mk > 0) {
-				num_mk--;
-				gotoxy(x + num_mk, y);
-				wcout << L" ";
-			}
-		}
-		else {
-			mk[num_mk++] = c;
-			wcout << "*";
-		}
-	}
-}
 account* HeThong::Login(int& phanQuyen) {
 	gotoxy(40, 3);
 	setcolor(3);
@@ -133,7 +107,7 @@ account* HeThong::Login(int& phanQuyen) {
 	setcolor(7);
 	wcout << L"Mật khẩu:";
 	setcolor(6);
-	this->getMkInput(mk, 40, 6);
+	getMKInput(mk, 40, 6);
 	//Đi kiểm tra đăng nhập
 	gotoxy(30, 7);
 	if (wstricmp(manager->getTK(), tk) == 0 && wstrcmp(manager->getMK(), mk) == 0) {
@@ -197,8 +171,7 @@ void HeThong::SignUp() {
 	wchar_t mk[30];
 	wcout << L"Mật khẩu:";
 	setcolor(6);
-	this->getMkInput(mk, 40, 6);
-
+	getMKInput(mk, 40, 6);
 	//Xác nhận lại mật khẩu
 	wchar_t confirmMk[30];
 	gotoxy(x, y + 2);
@@ -217,7 +190,8 @@ void HeThong::SignUp() {
 			}
 		}
 		setcolor(6);
-		this->getMkInput(confirmMk, 43, 7);
+		//this->getMkInput(confirmMk, 43, 7);
+		getMKInput(confirmMk, 43, 7);
 		check = false;
 	} while (wstrcmp(mk, confirmMk) != 0);
 	gotoxy(30, 8);
@@ -260,10 +234,10 @@ void HeThong::LuuDuLieu() {
 
 
 void HeThong::MenuManager() {
-	wstring task[10];
+	wstring task[11];
 	//Menu manager thuộc th=2 và có 10 tuỳ chọn (b=10)
 	updateTask(task, 2);
-	int b = 10;
+	int b = 11;
 	int x = 30, y = 5, w = 60, h = 2;
 	int t_color = 3, b_color = 0;
 	int b_color_curr = 4;
@@ -336,6 +310,10 @@ void HeThong::MenuManager() {
 				else if (lc == 5) {
 					//Xem và thêm từ vựng đóng góp vào từ điển
 					this->manager->InTuVungDongGop();
+					if (listContribute->getSize() > 0) {
+						vocab* v = new vocab;
+						this->manager->themTuVung(v, 0);
+					}
 				}
 				else if (lc == 6) {
 					//In thông tin danh sách người dùng.
@@ -350,11 +328,14 @@ void HeThong::MenuManager() {
 					this->manager->deleteUser();
 				}
 				else if (lc == 9) {
+					this->manager->doiMatKhau();
+				}
+				else if (lc == 10) {
 					/*Với manager, việc đăng xuất chỉ đơn giản là tắt máy
 					Còn với user thì mới có thông báo .....*/
 					break;
 				}
-				if (lc != 1 && lc != 2 && lc != 3) {
+				if (lc != 1 && lc != 2 && lc != 3 && lc!=5) {
 					ShowCur(0);
 					int temp = _getch();
 				}
@@ -365,8 +346,8 @@ void HeThong::MenuManager() {
 }
 
 void HeThong::MenuUser(user* u) {
-	//Menu user thuộc th=3 và có 7 tuỳ chọn (b=7)
-	int b = 8;
+	//Menu user thuộc th=3 và có 9 tuỳ chọn (b=7)
+	int b = 9;
 	wstring task[10];
 	updateTask(task, 3);
 	int x = 30, y = 5, w = 60, h = 2;
@@ -498,8 +479,7 @@ void HeThong::MenuUser(user* u) {
 									vocab* v = new vocab;
 									//Cần xây dựng toán tử =
 									*v = ds[idx];
-									v->setNext(NULL);
-
+									//v->setNext(NULL);
 									u->getAlbum()->insert(v);
 								}
 								else u->getAlbum()->deleteVocab(ds[idx].getEnglish());
@@ -536,7 +516,10 @@ void HeThong::MenuUser(user* u) {
 					int c = (int)getwchar();
 					if (lc == 1)
 						u->gameDienTu();
-					else u->gameChonDapAnDung();
+					else u->gameChonDapAnDung2();
+				}
+				else if (lc == 7) {
+					u->doiMatKhau();
 				}
 				/*Đăng xuất, chỉ ghi album từ vựng user xuống file khi tắt chương trình thôi
 				giảm thiểu thời gian cập nhật dữ liệu file liên tục và không cần thiết*/
@@ -558,8 +541,15 @@ void HeThong::MenuUser(user* u) {
 					setcolor(0);
 					break;
 				}
-				if (lc != 2)
-					system("pause");
+				if (lc != 2) {
+					if(lc!=7)
+						system("pause");
+					else {
+						ShowCur(0);
+						int c = (int)_getch();
+					}
+				}
+					
 				in_tieu_de(task, x, y, w, b);
 			}
 		}

@@ -103,7 +103,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +134,7 @@
     <ClInclude Include="HeThong.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MouseListener.h" />
     <ClInclude Include="thuvien.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="vocab.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="list.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MouseListener.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="thuvien.cpp" />
     <ClCompile Include="user.cpp" />

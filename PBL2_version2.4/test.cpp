@@ -24,5 +24,5 @@ int main() {
 	*/
 	//[ˈfʊt.bɑːl]
 	HeThong h;
-	h.MAIN(); 
+	h.MAIN();
 }

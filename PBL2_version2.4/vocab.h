@@ -70,4 +70,6 @@ public:
 	vocab operator = (const vocab& v);
 	//Làm việc với file
 	void doc_file_1_vocab(FILE* f);
+	friend class HashtableMeaning;
+	friend class HashtableVocab;
 };

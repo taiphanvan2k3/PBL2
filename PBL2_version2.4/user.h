@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include"account.h"
+#include"MouseListener.h"
 class user :public account {
 private:
 	HashtableVocab* album;
@@ -52,7 +53,7 @@ public:
 	void gameDienTu();
 
 	void gameChonDapAnDung();
-
+	void gameChonDapAnDung2();
 	//Kiểm tra file có tồn tại không trước khi tiến hành xoá
 	bool isExistFileAlbum();
 
@@ -64,4 +65,5 @@ public:
 
 	//Ghi toàn bộ album từ vựng của user xuống file
 	void ghiFileAlbum();
+	friend class HashtableUser;
 };
