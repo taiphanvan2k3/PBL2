@@ -19,7 +19,6 @@ void HashtableUser::deleteUser(wchar_t tk[]) {
 	user* after = heads[id], * before = NULL;
 	while (after != NULL && wstrcmp(after->getTK(), tk) != 0) {
 		before = after;
-		/*after = after->getNext();*/
 		after = after->next;
 	}
 	if (after == NULL) {
@@ -34,9 +33,8 @@ void HashtableUser::deleteUser(wchar_t tk[]) {
 		setcolor(7);
 		after->xemThongTinTaiKhoan();
 		if (after == heads[id])
-			/*heads[id] = after->getNext();*/
 			heads[id] = after->next;
-		else /*before->setNext(after->getNext());*/
+		else 
 			before->next = after->next;
 		if (after->isExistFileAlbum())
 			after->deleteFileAlbum();
@@ -51,7 +49,7 @@ void HashtableUser::displayListUser() {
 	wcout << "\t\t" << left << setw(30) << L"   Tài khoản" << "\t\t" << L"   Mật khẩu" << endl;
 	setcolor(7);
 	while (l) {
-		user* tam = heads[l->data];
+		user* tam = heads[l->getData()];
 		while (tam) {
 			tam->xemThongTinTaiKhoan();
 			/*tam = tam->getNext();*/
@@ -69,10 +67,9 @@ void HashtableUser::xemTaiKhoanUser() {
 	node<int>* l = listId.getHead();
 	int stt = 1;
 	while (l) {
-		user* tam = heads[l->data];
+		user* tam = heads[l->getData()];
 		while (tam) {
 			wcout << "\t\t" << left << setw(10) << stt++ << "\t" << tam->getTK() << endl;
-			/*tam = tam->getNext();*/
 			tam = tam->next;
 		}
 		l = l->next;
@@ -86,7 +83,7 @@ void HashtableUser::xemTaiKhoanUser() {
 void HashtableUser::syncVocab(vocab* updatedVocab) {
 	node<int>* l = listId.getHead();
 	while (l) {
-		user* tam = heads[l->data];
+		user* tam = heads[l->getData()];
 		while (tam) {
 			vocab* temp = tam->getAlbum()->search(updatedVocab->getEnglish());
 			if (temp != NULL)
@@ -109,7 +106,7 @@ void HashtableUser::ghiFileTkMk() {
 	if (f == NULL)
 		return;
 	while (l != NULL) {
-		user* tam = heads[l->data];
+		user* tam = heads[l->getData()];
 		while (tam != NULL) {
 			idx++;
 			fwprintf(f, L"%s,%s", tam->getTK(), tam->getMK());

@@ -23,6 +23,16 @@ int main() {
 	this->setMK(L"@@admin001");
 	*/
 	//[ˈfʊt.bɑːl]
+
+	/*Hashtable<vocab>h;
+	vocab* ds;
+	int n;
+	h.convertToArray(ds, n);*/
+	/*list<int>l;
+	l.push_back(1);
+	l.push_back(2);
+	l.erase(1);
+	l.display(); */
 	HeThong h;
-	h.MAIN();
+	h.MAIN(); 
 }

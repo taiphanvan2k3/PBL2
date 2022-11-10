@@ -20,7 +20,6 @@ void HashtableVocab::deleteVocab(wstring key) {
 	vocab* after = heads[id], * before = NULL;
 	while (after != NULL && wstrcmp(after->getEnglish(), key) != 0) {
 		before = after;
-		/*after = after->getNext();*/
 		after = after->next;
 	}
 	if (after == NULL)
@@ -31,10 +30,8 @@ void HashtableVocab::deleteVocab(wstring key) {
 		after->display();
 		wprintf(L" ra khỏi từ điển.\n");
 		if (after == heads[id])
-			/*heads[id] = after->getNext();*/
 			heads[id] = after->next;
 		else
-			/*before->setNext(after->getNext());*/
 			before->next = after->next;
 		delete after;
 	}
@@ -150,7 +147,6 @@ void HashtableVocab::ghiFileVocab(wchar_t* tenFile) {
 			fwprintf_s(f, L"%s\n%s-%s-%s;%d,%d", tam->getPhienAm(), tam->getEnglish(), vn, tam->getTuLoai(), tam->getSoLuong(), tam->getPoint());
 			if (idx < n)
 				fwprintf_s(f, L"\n");
-			/*tam = tam->getNext();*/
 			tam = tam->next;
 		}
 		l = l->next;

@@ -18,32 +18,47 @@ void MouseListener::paint(wstring option[],wstring question) {
     wcout << "Question: "<<question;
     setcolor(6);
     gotoxy(42, 4);
-    wcout << "A." << left << setw(20) << option[0] << "B." << option[1] << endl;
+    wcout << "A." << option[0];
+    gotoxy(62, 4);
+    wcout << "B." << option[1];
     gotoxy(42, 5);
-    wcout << "C." << left << setw(20) << option[2] << "D." << option[3] << endl;
+    wcout << "C." << option[2];
+    gotoxy(62, 5);
+    wcout << "D." << option[3];
     paintButtonExit(0);
     setcolor(7);
 
-    if (x >= 42 && x <= 82 && (y == 4 || y == 5)) {
-        if (y == 4) {
-            if (x == 42)
-                idx = 0;
-            else idx = 1;
-        }
-        else {
-            if (x == 42)
-                idx = 2;
-            else idx = 3;
-        }
+    if (x >= 42 && x <= 42 + (int)option[0].length() && y == 4) {
+        x = 42;
+        idx = 0;
+    }
+    else if (x >= 62 && x <= 62 + (int)option[1].length() && y == 4) {
+        x = 62;       
+        idx = 1;      
+    }
+    else if (x >= 42 && x <= 42 + (int)option[2].length() && y == 5) {
+        x = 42;        
+        idx = 2;       
+    }
+    else if (x >= 62 && x <= 62 + (int)option[3].length() && y == 5) {
+        x = 62;
+        idx = 3;       
+    }
+    else if (70 <= x && x <= 80 && 7 <= y && y <= 9) {
+        //idx==-1: đã bấm vào nút thoát
+        //idx==-2: bấm vào vùng không có đối tượng nào
+        idx = -1;
+        paintButtonExit(4);
+    }  
+    else idx = -2;
+
+    //Khi đã xác định được x,y,idx thì đi in màu đáp án được chọn
+    if ((x == 42 || x == 62) && (y == 4 || y == 5)) {
         setcolor(4);
         gotoxy(x, y);
-        if (idx == 1 || idx == 3)
-            wcout << "  ";
-        wcout <<wchar_t(idx+'A')<<"."<< option[idx];
+        wcout << wchar_t(idx + 'A') << "." << option[idx];
         setcolor(7);
     }
-    else if (70 <= x && x <= 80 && 7 <= y && y <= 9)
-        paintButtonExit(4);
 }
 // hàm này để lấy vị trí chuột trên std
 void MouseListener::GetMousePosWin(MOUSE_EVENT_RECORD mer) {
@@ -70,26 +85,15 @@ void MouseListener::GetMousePosWin(MOUSE_EVENT_RECORD mer) {
             switch (Inrec.EventType) {
                 case MOUSE_EVENT: {
                     Captured = true;
-                    if (y == 4 || y == 5) {
-                        if (x >= 62)
-                            x = 62;
-                        else if (x >= 42)
-                            x = 42;
-                    }
-                    else if (7 <= y && y <= 9) {
-                        if (70 <= x && x <= 80)
-                            idx = -1;
-                    }
                     break;
                 }
             }
         }
-
     } while (!Captured);
 }
 
 wstring MouseListener::getAnswer(wstring ds[],wstring question) {
-
+    idx = -2;
     DWORD cNumRead, fdwMode, i;
     INPUT_RECORD irInBuf[128];
     int counter = 0;
@@ -126,9 +130,11 @@ wstring MouseListener::getAnswer(wstring ds[],wstring question) {
                 GetMousePosWin(irInBuf[i].Event.MouseEvent);
                 paint(ds,question);
                 if (GetAsyncKeyState(0x01)) {
-                    if (idx == -1)
-                        return L"Thoát";
-                    return ds[idx];
+                    if (idx != -2) {
+                        if (idx == -1)
+                            return L"Thoát";
+                        return ds[idx];
+                    }
                 }
                 break;
             }

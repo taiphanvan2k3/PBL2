@@ -235,6 +235,7 @@ void ShowCur(int CursorVisibility)
 
 void getMKInput(wchar_t mk[], int x, int y) {
 	int num_mk = 0;
+	bool pressed = false;
 	while (num_mk + 1 < 30) {
 		gotoxy(x + num_mk, y);
 		wchar_t c = _getch();
@@ -251,9 +252,35 @@ void getMKInput(wchar_t mk[], int x, int y) {
 				wcout << L" ";
 			}
 		}
+		//Khi nhấn ctrl S =>show mật khẩu
+		else if (c == 19) {
+			pressed = !pressed;
+			gotoxy(x, y);
+			if (pressed) {
+				setcolor(2);
+				mk[num_mk] = '\0';
+				wcout << mk;
+				gotoxy(x, y + 1);
+				wcout << L" ";
+
+			}
+			else {
+				setcolor(6);
+				for (int i = 0; i < num_mk; i++)
+					wcout << L"•";
+			}
+		}
 		else {
 			mk[num_mk++] = c;
-			wcout << "*";
+			if (pressed) {
+				setcolor(2);
+				wcout << c;
+			}
+			else {
+				setcolor(6);
+				wcout << L"•";
+			}
+				
 		}
 	}
 }

@@ -92,5 +92,8 @@
     <ClCompile Include="MouseListener.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="node.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

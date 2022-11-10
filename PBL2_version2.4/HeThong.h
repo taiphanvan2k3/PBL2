@@ -3,11 +3,14 @@
 //#include"Menu.h"
 class HeThong :public Menu {
 private:
+	bool checkReadContributedVocab = false;
 	Manager* manager;
 	HashtableUser* listUser;
 	HashtableVocab* vocabHeThong;
 	HashtableMeaning* vocabMeaning;
 	list<wstring>* listContribute;
+	void docFileListContribute();
+	void ghiFileListContribute();
 public:
 	void splitTk_Mk(user* u, wchar_t* str);
 	HeThong();

@@ -123,6 +123,7 @@ void user::traCuuTuVungAnhViet() {
 	if (tam == NULL) {
 		setcolor(4);
 		wcout << L"Từ vựng bạn cần tra cứu hiện tại vẫn chưa có trong từ điển." << endl;
+		setcolor(3);
 		wcout << L"Hệ thống xin ghi nhận đóng góp của bạn và sẽ xem xét việc thêm từ vựng bạn vừa tra cứu vào từ điển hệ thống." << endl;
 		setcolor(7);
 		this->listContribute->push_back(str);

@@ -78,21 +78,26 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 
 
 //themTuVung này là phương thức thêm từ vựng vào vocabHeThong chỉ có ở Manager
-//th=1: ứng với lúc manager chọn chức năng nhập thủ công 
-//th=0: ứng với lúc manager chọn chức năng thêm từ vựng đóng góp
 void Manager::themTuVung(vocab* v, int th) {
 	wchar_t str[30];
+	setcolor(3);
 	wprintf(L"Bạn cần điền các thông tin sau để hoàn tất việc thêm từ vựng vào TỪ ĐIỂN:\n");
-	wprintf(L"Mời bạn nhập từ vựng:");
+	setcolor(2);
+	wprintf(L"Mời bạn nhập từ vựng (Enter nếu huỷ thao tác này):");
+	setcolor(6);
 	_getws_s(str);
+	if ((int)wcslen(str) == 0)
+		return;
 	formatInput(str);
 	convert(str);
 	vocab* tam = this->vocabHeThong->search(str);
-	if (tam != NULL)
+	if (tam != NULL) {
+		setcolor(4);
 		wprintf(L"Từ vựng bạn muốn thêm đã có trong từ điển rồi.\n");
+		setcolor(7);
+	}	
 	else {
-		if (th == 0)
-			listContribute->erase(str);
+		listContribute->erase(str);
 		v->setEnglish(str);
 		v->nhap_tt_1_vocab();
 		this->vocabHeThong->insert(v);
@@ -166,10 +171,17 @@ void Manager::chinhSuaTuVung() {
 }
 
 void Manager::InTuVungDongGop() {
-	wcout << L"Danh sách từ vựng người dùng đã đóng góp:" << endl;
-	if (this->listContribute->getSize() == 0)
+	setcolor(3);
+	wcout << L"\t\t\tDanh sách từ vựng đóng góp:" << endl;
+	setcolor(7);
+	if (this->listContribute->getSize() == 0) {
+		setcolor(2);
 		wcout << L"->Danh sách đang rỗng" << endl;
-	else this->listContribute->display();
+		setcolor(7);
+		ShowCur(0);
+		int c=_getch();
+	}else
+		this->listContribute->display();
 }
 
 void Manager::themTuVungDongGop() {

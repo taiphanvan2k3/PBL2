@@ -72,6 +72,7 @@ HeThong::~HeThong() {
 HashtableUser* HeThong::getListUser() {
 	return this->listUser;
 }
+
 void HeThong::docFileListAccount() {
 	FILE* f;
 	FILE** pFile = &f;
@@ -89,6 +90,7 @@ void HeThong::docFileListAccount() {
 	}
 	fclose(f);
 }
+
 account* HeThong::Login(int& phanQuyen) {
 	gotoxy(40, 3);
 	setcolor(3);
@@ -208,20 +210,65 @@ void HeThong::SignUp() {
 	this->listUser->insert(temp);
 }
 
-/*
-Chức năng này sẽ được gọi khi tại menu chung thực hiện tuỳ chọn thoát
-Tiến hành lưu toàn bộ từ vựng hệ thống, tk-mk user, album từ vựng của từng user xuống file
-Từ vựng hệ thống và album từ vựng (user) đều là class HashtableVocab
-=> Xây dựng phương thức ghi file trên HashtableVocab
-*/
+
+void HeThong::docFileListContribute() {
+	FILE* f = NULL;
+	FILE** pFile = &f;
+	_wfopen_s(pFile, L"contributedVocab.txt", L"r,ccs=UTF-16LE");
+	if (f == NULL)
+		return;
+	while (!feof(f)) {
+		wchar_t str[30];
+		fgetws(str, 30, f);
+		if (str[wcslen(str) - 1] == L'\n')
+			str[wcslen(str) - 1] = L'\0';
+		if(this->vocabHeThong->search(str)==NULL)
+			this->listContribute->push_back(str);
+	}
+	fclose(f);
+}
+
+void HeThong::ghiFileListContribute() {
+	FILE* f = NULL;
+	FILE** pFile = &f;
+	_wfopen_s(pFile, L"contributedVocab.txt", L"w,ccs=UTF-16LE");
+	if (f == NULL)
+		return;
+	if (this->listContribute->getSize() == 0) {
+		fclose(f);
+		system("del contributedVocab.txt");
+		return;
+	}	
+	node<wstring>* temp = this->listContribute->getHead();
+	while (temp) {
+		wchar_t str[30];
+		wstrcpy(str, temp->getData());
+		fwprintf(f, L"%s", str);
+		if (temp->getNext() != NULL)
+			fwprintf(f, L"\n");
+		temp = temp->getNext();
+	}
+	fclose(f);
+}
+
 
 void HeThong::LuuDuLieu() {
+	/*
+	Chức năng này sẽ được gọi khi tại menu chung thực hiện tuỳ chọn thoát
+	Tiến hành lưu toàn bộ từ vựng hệ thống, tk-mk user, album từ vựng của từng user xuống file
+	Từ vựng hệ thống và album từ vựng (user) đều là class HashtableVocab
+	=> Xây dựng phương thức ghi file trên HashtableVocab
+	*/
+
 	//Lưu toàn bộ từ vựng hệ thống xuống file
 	wchar_t filePhienAm[] = L"test.txt";
 	this->manager->getVocabHeThong()->ghiFileVocab(filePhienAm);
 
 	//Lưu toàn bộ tk-mk user xuống file
 	this->listUser->ghiFileTkMk();
+
+	//Lưu các từ vựng đóng góp mà admin chưa thực hiện việc thêm xuống file
+	this->ghiFileListContribute();
 
 	/*
 	Lưu toàn bộ album từ vựng của từng user xuống file
@@ -309,6 +356,10 @@ void HeThong::MenuManager() {
 				}
 				else if (lc == 5) {
 					//Xem và thêm từ vựng đóng góp vào từ điển
+					if (!checkReadContributedVocab) {
+						checkReadContributedVocab = true;
+						this->docFileListContribute();
+					}
 					this->manager->InTuVungDongGop();
 					if (listContribute->getSize() > 0) {
 						vocab* v = new vocab;
