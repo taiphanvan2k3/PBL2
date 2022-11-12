@@ -22,10 +22,13 @@ void HashtableVocab::deleteVocab(wstring key) {
 		before = after;
 		after = after->next;
 	}
-	if (after == NULL)
+	if (after == NULL) {
+		setcolor(4);
 		wprintf(L"Từ vựng bạn muốn xoá không có trong từ điển.\n");
+	}
 	else {
 		deleted++;
+		setcolor(2);
 		wprintf(L"Đã xoá từ vựng:");
 		after->display();
 		wprintf(L" ra khỏi từ điển.\n");
@@ -34,7 +37,10 @@ void HashtableVocab::deleteVocab(wstring key) {
 		else
 			before->next = after->next;
 		delete after;
+		ShowCur(0);
+		int c = _getch();
 	}
+	setcolor(7);
 }
 
 //In theo trang này được dùng cho phương thức inTuVungHeThong

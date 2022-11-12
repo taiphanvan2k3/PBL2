@@ -3,6 +3,7 @@
 class HashtableVocab :public Hashtable<vocab> {
 public:
 	HashtableVocab();
+	~HashtableVocab() {}
 
 	void insert(vocab* x);
 

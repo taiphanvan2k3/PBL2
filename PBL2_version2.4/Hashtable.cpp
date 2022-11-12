@@ -11,6 +11,7 @@ protected:
 	int num, deleted;
 public:
 	Hashtable();
+	~Hashtable();
 	int hash(wstring key);
 	void insertIntoLinkList(T*& head, T* x);
 	int getSoLuong();
@@ -24,6 +25,16 @@ Hashtable<T>::Hashtable() {
 	num = deleted = 0;
 	for (int i = 0; i < maxsize; i++)
 		heads[i] = NULL;
+}
+
+template<class T>
+Hashtable<T>::~Hashtable() {
+	node<int>* head = listId.getHead();
+	while (head) {
+		int idx = head->getData();
+		deleteLinkList(heads[idx]);
+		head = head->getNext();
+	}
 }
 
 template<class T>

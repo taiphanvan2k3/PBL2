@@ -10,7 +10,6 @@
 #include<iomanip>
 #include"conio.h" // chứa _kbhit()
 using namespace std;
-
 int wstrcmp(wchar_t a[], wchar_t b[]);
 int wstrcmp(wchar_t a[], const wchar_t b[]);
 int wstrcmp(wchar_t a[], wstring b);

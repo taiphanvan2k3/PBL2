@@ -65,6 +65,28 @@ void HashtableMeaning::insert(vocab* x) {
 	}
 }
 
+void HashtableMeaning::deleteMeaning(vocab* x) {
+	int n = x->getSoLuong();
+	for (int i = 0; i < n; i++)
+		this->deleteMultiMeaning(x->eng,x->vn[i]);
+}
+
+void HashtableMeaning::deleteMultiMeaning(wstring eng,wstring vn) {
+	int idx = this->hash(vn);
+	vocab* after = heads[idx], * before = NULL;
+	while (after && wstrcmp(after->eng, eng) != 0) {
+		before = after;
+		after = after->next;
+	}
+	
+	if (after != NULL) {
+		if (after == heads[idx])
+			heads[idx] = after->next;
+		else before->next = after->next;
+		delete after;
+	}
+}
+
 //Tra cứu từ vựng Việt-Anh
 void HashtableMeaning::traCuu(wstring str) {
 	vocab* temp = this->search(str);

@@ -4,7 +4,7 @@
 class HashtableUser:public Hashtable<user> {
 public:
 	HashtableUser();
-
+	~HashtableUser(){}
 	void insert(user* x);
 
 	void deleteUser(wchar_t tk[]);

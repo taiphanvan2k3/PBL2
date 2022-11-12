@@ -53,6 +53,9 @@ HeThong::HeThong() {
 	/*Gán vùng nhớ vocabHeThong trong class manager cho vocabHeThong trong class HeThong
 	để khi vocabHeThong trong class Manager thay đổi thì vocabHeThong trong class HeThong cũng thay đổi theo*/
 	this->vocabHeThong = this->manager->getVocabHeThong();
+
+	//Đọc file các từ vựng mà user đã đóng góp từ file đã lưu trước đó
+	this->docFileListContribute();
 }
 
 
@@ -66,6 +69,7 @@ HeThong::~HeThong() {
 	delete listUser;
 	delete vocabHeThong;
 	delete vocabMeaning;
+	deleteLinkList(listContribute->getHead());
 }
 
 
@@ -222,7 +226,7 @@ void HeThong::docFileListContribute() {
 		fgetws(str, 30, f);
 		if (str[wcslen(str) - 1] == L'\n')
 			str[wcslen(str) - 1] = L'\0';
-		if(this->vocabHeThong->search(str)==NULL)
+		if (this->vocabHeThong->search(str) == NULL)
 			this->listContribute->push_back(str);
 	}
 	fclose(f);
@@ -260,7 +264,6 @@ void HeThong::LuuDuLieu() {
 	=> Xây dựng phương thức ghi file trên HashtableVocab
 	*/
 
-	//Lưu toàn bộ từ vựng hệ thống xuống file
 	wchar_t filePhienAm[] = L"test.txt";
 	this->manager->getVocabHeThong()->ghiFileVocab(filePhienAm);
 
@@ -356,10 +359,6 @@ void HeThong::MenuManager() {
 				}
 				else if (lc == 5) {
 					//Xem và thêm từ vựng đóng góp vào từ điển
-					if (!checkReadContributedVocab) {
-						checkReadContributedVocab = true;
-						this->docFileListContribute();
-					}
 					this->manager->InTuVungDongGop();
 					if (listContribute->getSize() > 0) {
 						vocab* v = new vocab;
@@ -386,7 +385,7 @@ void HeThong::MenuManager() {
 					Còn với user thì mới có thông báo .....*/
 					break;
 				}
-				if (lc != 1 && lc != 2 && lc != 3 && lc!=5) {
+				if (lc != 1 && lc != 2 && lc != 3 && lc!=4 && lc!=5) {
 					ShowCur(0);
 					int temp = _getch();
 				}

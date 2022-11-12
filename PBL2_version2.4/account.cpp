@@ -117,6 +117,7 @@ void account::doiMatKhau() {
 	wcout << L"Xác nhận:";
 	wchar_t confirm[30];
 	bool check = true;
+	cnt = 0;
 	do {
 		if (!check) {
 			gotoxy(40, 8);
@@ -132,7 +133,15 @@ void account::doiMatKhau() {
 		gotoxy(40, 8);
 		getMKInput(confirm,40, 8);
 		check = false;
-	} while (wstrcmp(confirm, newPass) !=0);
+		cnt++;
+	} while (wstrcmp(confirm, newPass) !=0 && cnt<3);
+	if (cnt == 3) {
+		system("cls");
+		setcolor(3);
+		wcout << L"\t\t\t\tBạn đã nhập sai mật khẩu xác nhận 3 lần. \n\t\t\tPhiên đổi mật khẩu này bị huỷ.\n";
+		setcolor(7);
+		return;
+	}
 	setcolor(7);
 	gotoxy(30, 10);
 	setcolor(3);

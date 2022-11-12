@@ -3,6 +3,8 @@
 class HashtableMeaning :public Hashtable<vocab> {
 	//class này sẽ được gọi khi user đăng nhập tài khoản thành công
 public:
+	~HashtableMeaning() {}
+
 	vocab* search(wstring str);
 
 	/*
@@ -18,7 +20,8 @@ public:
 	void insertMultiMeaning(vocab* x);
 
 	void insert(vocab* x);
-
+	void deleteMeaning(vocab* x);
+	void deleteMultiMeaning(wstring eng,wstring vn);
 	//Tra cứu từ vựng Việt-Anh
 	void traCuu(wstring str);
 };

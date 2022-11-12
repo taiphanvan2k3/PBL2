@@ -106,11 +106,29 @@ void Manager::themTuVung(vocab* v, int th) {
 }
 
 void Manager::xoaTuVung() {
+	setcolor(3);
 	wchar_t str[50];
-	wcout << L"Nhập từ vựng bạn cần XOÁ:";
+	wcout << L"Nhập từ vựng bạn cần XOÁ (Enter nếu huỷ thao tác này):";
+	setcolor(6);
 	_getws_s(str);
+	if ((int)wcslen(str) == 0)
+		return;
 	formatInput(str);
+	setcolor(7);
+	vocab* res = this->vocabHeThong->search(str);
+	if (res == NULL) {
+		setcolor(4);
+		wprintf(L"Từ vựng bạn muốn xoá không có trong từ điển.\n");
+		ShowCur(0);
+		int c = _getch();
+		return;
+	}
+	vocab* temp = new vocab;
+	*temp = *res;
 	this->vocabHeThong->deleteVocab(str);
+	//Xoá các nghĩa của nó trong bảng băm HashtableMeaning
+	this->vocabMeaning->deleteMeaning(temp);
+	delete temp;
 }
 
 //Chức năng này chỉ có ở manager vì chỉnh sửa vào vocabHeThong
@@ -133,9 +151,10 @@ void Manager::chinhSuaTuVung() {
 		tam->display(1);
 		wcout << endl;
 		vocab* newVocab = new vocab;
-		setcolor(3);
+		setcolor(2);
 		wcout << L"*Bạn có cảm thấy từ vựng này của bạn có vấn đề về phần ENGLISH không?" << endl;
-		wcout << L"->Nhập đổi mới từ vựng nếu bạn muốn chỉnh sửa!" << endl;
+		wcout << L"->Nhập đổi mới từ vựng nếu bạn muốn chỉnh sửa! (Enter để bỏ qua)" << endl;
+		setcolor(3);
 		wcout << L"->Nhập từ vựng mới:";
 		wchar_t str[30];
 		setcolor(6);
@@ -150,20 +169,32 @@ void Manager::chinhSuaTuVung() {
 		//Nếu người dùng nhấn enter=>str là rỗng => str cũng chính là eng cũ nên ta wstrcpy để gán cho str
 		else wstrcpy(str, tam->getEnglish());
 		newVocab->nhap_tt_1_vocab();
+
 		if (wstrcmp(tam->getEnglish(), str) != 0) {
-			//Khi chỉnh sửa luôn về trường eng của tam thì ta phải xoá tam ra khỏi bảng băm
-			//rồi insert vào newVocab tương ứng với từ vựng mới
+			/*Khi chỉnh sửa luôn về trường eng của vocab tam 
+			tức là ta đã xoá tam ra khỏi bảng băm rồi insert 
+			vào thêm từ vựng mới newVocab vào bảng băm vocab,
+			đồng thời xoá đi các nghĩa của từ vựng cũ đó*/
+			this->vocabMeaning->deleteMeaning(tam);
 			this->vocabHeThong->deleteVocab(tam->getEnglish());
 			this->vocabHeThong->insert(newVocab);
 			this->vocabMeaning->insert(newVocab);
 			//Xem xét việc this->vocabMeaning->insert(newVocab);
 		}
 		else {
+			
+			/*Khi cập nhật lại nghĩa của từ vựng thì xoá các nghĩa cũ đi bằng cách gọi đến
+			bảng băm vocabMeaning để xoá các nghĩa cũ*/
+			this->vocabMeaning->deleteMeaning(tam);
+
 			/*Chú ý ở đây dùng phương thức updateDate chứ ko dùng *tam=*newVocab
 			vì có thể newVocab có phần eng là rỗng mà bây giờ ta đi gán như vậy sẽ dẫn đến sai*/
 			tam->updateData(newVocab);
+
+			//Thêm nghĩa mới của từ vựng vào bảng băm
 			this->vocabMeaning->insert(tam);
-			//Đồng bộ 
+			
+			//Đồng bộ với từ vựng trong từng album của user 
 			if (this->listUser != NULL)
 				this->listUser->syncVocab(tam);
 		}
