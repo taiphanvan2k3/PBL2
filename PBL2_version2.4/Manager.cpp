@@ -55,25 +55,34 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 		return;
 	int cnt = 0;
 	while (!feof(f)) {
-		cnt++;
 		vocab* a = new vocab();
 		a->doc_file_1_vocab(f);
-		this->vocabHeThong->insert(a);
-		this->vocabMeaning->insert(a);
+		if (this->vocabHeThong->search(a->getEnglish()) == NULL) {
+			cnt++;
+			this->vocabHeThong->insert(a);
+			this->vocabMeaning->insert(a);
+		}	
 	}
 
 	if (phanQuyen == 1) {
-		setcolor(2);
 		system("cls");
+		if (cnt == 0) {
+			setcolor(3);
+			wcout << L"\t\tTừ vựng bạn vừa đọc từ file đã có sẵn trong hệ thống rồi." << endl;
+			setcolor(7);
+			return;
+		}
+		setcolor(3);
 		wcout << L"Đang nạp " << cnt << L" từ vựng từ điển." << endl;
+		setcolor(2);
 		for (int i = 1; i <= cnt; i++) {
 			wcout << L"Loading " << i * 100 / cnt << " %" << endl;
 			Sleep(100);
 		}
 		wcout << L"Hoàn tất." << endl;
 		setcolor(7);
-		fclose(f);
 	}
+	fclose(f);
 }
 
 

@@ -123,9 +123,9 @@ void wstrcpy(wchar_t dest[], wstring src) {
 
 void trim(wchar_t str[]) {
 	int idx = 0, l = 0, r = (int)wcslen(str) - 1;
-	while (str[l] == L' ')
+	while (str[l] == L' ' || str[l] == '\t')
 		l++;
-	while (str[r] == L' ')
+	while (str[r] == L' ' || str[r] == '\t')
 		r--;
 	if (l > 0 || r < wcslen(str) - 1) {
 		int n = r - l + 1;
@@ -137,9 +137,9 @@ void trim(wchar_t str[]) {
 
 void trim(wstring& str) {
 	int idx = 0, l = 0, r = (int)str.length() - 1;
-	while (str[l] == L' ')
+	while (str[l] == L' ' || str[l] == '\t')
 		l++;
-	while (str[r] == L' ')
+	while (str[r] == L' ' || str[r] == '\t')
 		r--;
 	if (l > 0 || r < str.length() - 1) {
 		int n = r - l + 1;
@@ -153,25 +153,35 @@ void deleteSpace(wchar_t str[]) {
 	int idx = 0;
 	int n = (int)wcslen(str);
 	for (int i = 0; i < n; i++) {
-		if (str[i] == L' ') {
-			while (i + 1 < n && str[i + 1] == L' ')
-				i++;
+		bool check = true;
+		while (i < n && (str[i] == L' ' || str[i] == L'\t')) {
+			check = false;
+			i++;
 		}
-		str[idx++] = str[i];
+		if (i < n) {
+			if (!check)
+				str[idx++] = L' ';
+			str[idx++] = str[i];
+		}
 	}
-	str[idx] = L'\0';
+	str[idx++] = L'\0';
 }
 void deleteSpace(wstring& str) {
-	int idx = 0;
-	int n = (int)str.length();
+	wstring res = L"";
+	int n = (int)str.size();
 	for (int i = 0; i < n; i++) {
-		if (str[i] == L' ') {
-			while (i + 1 < n && str[i + 1] == L' ')
-				i++;
+		bool check = true;
+		while (str[i] == L' ' || str[i] == L'\t') {
+			check = false;
+			i++;
 		}
-		str[idx++] = str[i];
+		if (i < n) {
+			if (!check)
+				res += L" ";
+			res += str[i];
+		}
 	}
-	str.resize(idx);
+	str = res;
 }
 
 void formatInput(wchar_t str[]) {

@@ -173,7 +173,9 @@ void vocab::nhap_tt_1_vocab() {
 		setcolor(2);
 		wprintf(L"Nhập nghĩa thứ %d:", this->sl + 1);
 		setcolor(6);
-		_getws_s(vn[this->sl++]);
+		_getws_s(vn[this->sl]);
+		formatInput(vn[this->sl]);
+		sl++;
 		setcolor(2);
 		wprintf(L"Bạn có muốn thêm nghĩa nào khác không ?\n");
 		wprintf(L"Nhập 1-Yes,0-No: ");
