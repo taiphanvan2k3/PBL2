@@ -525,15 +525,16 @@ void HeThong::MenuUser(user* u) {
 								int idx = 20 * (page_curr - 1) + (yp - 4);
 								checkStatus[idx] = 1 - checkStatus[idx];
 								if (checkStatus[idx]) {
+									setcolor(2);
 									wcout << L"Vừa thêm từ vựng [" << ds[idx].getEnglish() << L"] vào album của bạn." << endl;
+									setcolor(7);
 									vocab* v = new vocab;
-									//Cần xây dựng toán tử =
 									*v = ds[idx];
-									//v->setNext(NULL);
 									u->getAlbum()->insert(v);
+									ShowCur(0);
+									int c = _getch();
 								}
 								else u->getAlbum()->deleteVocab(ds[idx].getEnglish());
-								system("pause");
 								system("cls");
 								gotoxy(1, 1);
 								u->themTuVungVersion(ds, n, page_curr, checkStatus);
@@ -592,7 +593,7 @@ void HeThong::MenuUser(user* u) {
 					break;
 				}
 				if (lc != 2) {
-					if(lc!=7)
+					if(lc!=7 && lc!=0 && lc!=6)
 						system("pause");
 					else {
 						ShowCur(0);

@@ -222,6 +222,10 @@ bool vocab::operator < (vocab a) {
 	return (wstrcmp(this->eng, a.eng) < 0);
 }
 
+bool vocab::operator == (const vocab a) {
+	return (wstrcmp(this->eng,a.eng) == 0);
+}
+
 //Làm việc với file
 void vocab::doc_file_1_vocab(FILE* f) {
 	wchar_t phienam[100];
@@ -241,40 +245,6 @@ void vocab::doc_file_1_vocab(FILE* f) {
 	int n = (int)wcslen(str);
 	int p = str[n - 1] - '0';
 	int sl = str[n - 3] - '0';
-	this->setPoint(p);
-	this->setSoLuong(sl);
-
 	str[n - 4] = L'\0';
-
-	wchar_t ds[3][100];
-	n = (int)wcslen(str);
-	int k = 0, idx = 0;
-	//k:phần tử hiện tại (eng,vn,tuLoai)
-	//idx: chỉ số trong chuỗi (eng,vn,tuLoai)
-	for (int i = 0; i < n; i++) {
-		if (str[i] == '-') {
-			ds[k][idx] = L'\0';
-			k++;
-			idx = 0;
-		}
-		else ds[k][idx++] = str[i];
-	}
-
-	ds[2][idx] = '\0';
-	this->setEnglish(ds[0]);
-	this->setTuLoai(ds[2]);
-	this->setPoint(p);
-	wchar_t vn[10][30];
-	n = (int)wcslen(ds[1]);
-	k = 0, idx = 0;
-	for (int i = 0; i < n; i++) {
-		if (ds[1][i] == ',') {
-			vn[k][idx] = '\0';
-			k++;
-			idx = 0;
-		}
-		else vn[k][idx++] = ds[1][i];
-	}
-	vn[k][idx] = L'\0';
-	this->setVN(vn, sl);
+	this->doc_file_1_vocab(str, sl, p); 
 }

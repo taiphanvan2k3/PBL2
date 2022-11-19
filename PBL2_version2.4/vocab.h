@@ -67,6 +67,7 @@ public:
 
 	bool operator < (vocab a);
 
+	bool operator == (const vocab a);
 	vocab operator = (const vocab& v);
 	//Làm việc với file
 	void doc_file_1_vocab(FILE* f);

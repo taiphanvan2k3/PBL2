@@ -52,7 +52,6 @@ public:
 
 	void gameDienTu();
 
-	void gameChonDapAnDung();
 	void gameChonDapAnDung2();
 	//Kiểm tra file có tồn tại không trước khi tiến hành xoá
 	bool isExistFileAlbum();
@@ -65,5 +64,9 @@ public:
 
 	//Ghi toàn bộ album từ vựng của user xuống file
 	void ghiFileAlbum();
+
+	//Xem lại các từ vựng trả lời sai
+	void reviewVocab(list<vocab>wrongAnswer);
+
 	friend class HashtableUser;
 };

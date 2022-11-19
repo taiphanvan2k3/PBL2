@@ -34,5 +34,5 @@ int main() {
 	l.erase(1);
 	l.display(); */
 	HeThong h;
-	h.MAIN();
+	h.MAIN(); 
 }
