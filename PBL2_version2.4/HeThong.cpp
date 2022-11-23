@@ -105,10 +105,23 @@ account* HeThong::Login(int& phanQuyen) {
 	gotoxy(x, y);
 	setcolor(7);
 	wcout << L"Tài khoản:";
-	setcolor(6);
-	_getws_s(tk);
-	formatInput(tk);
-	convert(tk);
+	bool check = true;
+	do {
+		if (!check) {
+			setcolor(6);
+			gotoxy(40, 5);
+			wcout << L"tài khoản đăng nhập không được bỏ trống.";
+			Sleep(1000);
+			gotoxy(40, 5);
+			for (int i = 0; i < 41; i++)
+				wcout << L" ";
+			gotoxy(40, 5);
+		}
+		setcolor(6);
+		_getws_s(tk);
+		formatInput(tk);
+		check = false;
+	} while (wcslen(tk) == 0);
 	gotoxy(x, y + 1);
 	setcolor(7);
 	wcout << L"Mật khẩu:";
