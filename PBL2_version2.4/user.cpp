@@ -144,7 +144,20 @@ void user::traCuuTuVungVietAnh() {
 	wcout << L"->Nhập nghĩa để tìm kiếm:";
 	wstring str;
 	setcolor(6);
-	getline(wcin, str);
+	bool check = true;
+	do {
+		if (!check) {
+			gotoxy(25, 3);
+			wcout << L"bạn vui lòng nhập từ bạn cần tra cứu trước khi nhấn Enter.";
+			Sleep(1000);
+			gotoxy(25, 3);
+			for (int i = 0; i < 59; i++)
+				wcout << L" ";
+			gotoxy(25, 3);
+		}
+		check = false;
+		getline(wcin, str);
+	} while (str.size() == 0);
 	formatInput(str);
 	setcolor(3);
 	wcout << L"->Kết quả tìm kiếm:";

@@ -1,4 +1,5 @@
 ﻿#include"HeThong.h"
+#include<locale>
 int main() {
 	int t;
 	t = _setmode(_fileno(stdout), _O_U16TEXT); //cần để viết được ký tự utf-16 ra stdout

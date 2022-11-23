@@ -82,15 +82,17 @@ void wstrcat(wchar_t dest[], const wchar_t src[]) {
 }
 
 void convert(wchar_t str[]) {
+	setlocale(LC_ALL, "");
 	int n = (int)wcslen(str);
 	for (int i = 0; i < n; i++)
-		str[i] = wtolower(str[i]);
+		str[i] = towlower(str[i]);
 }
 
 void convert(wstring& str) {
+	setlocale(LC_ALL, "");
 	int n = (int)str.length();
 	for (int i = 0; i < n; i++)
-		str[i] = wtolower(str[i]);
+		str[i] = towlower(str[i]);
 }
 
 void convertWstringToChar(char dest[], wstring src) {
@@ -187,11 +189,13 @@ void deleteSpace(wstring& str) {
 void formatInput(wchar_t str[]) {
 	trim(str);
 	deleteSpace(str);
+	convert(str);
 }
 
 void formatInput(wstring& str) {
 	trim(str);
 	deleteSpace(str);
+	convert(str);
 }
 
 void setPage(int* numOfPage, int n) {
@@ -243,7 +247,9 @@ void ShowCur(int CursorVisibility)
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
 
-void getMKInput(wchar_t mk[], int x, int y) {
+void getMKInput(wchar_t mk[], int x, int y,int th) {
+	//th=0: ứng với việc đăng nhập
+	//th=1: ứng với việc đăng kí
 	int num_mk = 0;
 	bool pressed = false;
 	while (num_mk + 1 < 30) {
@@ -251,8 +257,41 @@ void getMKInput(wchar_t mk[], int x, int y) {
 		wchar_t c = _getch();
 		//Phím enter
 		if (c == 13) {
-			mk[num_mk] = '\0';
-			break;
+			if (num_mk >= 5 || (th==0 && num_mk>=1)) {
+				mk[num_mk] = '\0';
+				break;
+			}
+			else {
+				gotoxy(x, y);
+				if (th == 0) {
+					wcout << L"mật khẩu đăng nhập không được bỏ trống.";
+					Sleep(1000);
+					gotoxy(x, y);
+					for (int i = 0; i < 40; i++)
+						wcout << L" ";
+					gotoxy(x, y);
+				}
+				else {
+					wcout << L"mật khẩu phải tối thiểu 5 kí tự.";
+					Sleep(1000);
+					gotoxy(x, y);
+					for (int i = 0; i < 33; i++)
+						wcout << L" ";
+					gotoxy(x, y);
+				}
+				if (pressed) {
+					setcolor(2);
+					mk[num_mk] = '\0';
+					wcout << mk;
+					gotoxy(x, y + 1);
+					wcout << L" ";
+				}
+				else {
+					setcolor(6);
+					for (int i = 0; i < num_mk; i++)
+						wcout << L"•";
+				}
+			}
 		}
 		//Phím delete
 		else if (c == 8) {
@@ -272,7 +311,6 @@ void getMKInput(wchar_t mk[], int x, int y) {
 				wcout << mk;
 				gotoxy(x, y + 1);
 				wcout << L" ";
-
 			}
 			else {
 				setcolor(6);

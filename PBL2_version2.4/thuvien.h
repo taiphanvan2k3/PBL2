@@ -9,6 +9,7 @@
 #include<Windows.h>
 #include<iomanip>
 #include"conio.h" // chứa _kbhit()
+#include<locale>// dùng để towlower 1 kí tự unicode
 using namespace std;
 int wstrcmp(wchar_t a[], wchar_t b[]);
 int wstrcmp(wchar_t a[], const wchar_t b[]);
@@ -41,7 +42,7 @@ void gotoxy(int x, int y);
 //Bật,tắt hiển thị con trỏ chuột
 void ShowCur(int CursorVisibility);
 //Lấy mật khẩu input và in ra dưới dạng *
-void getMKInput(wchar_t mk[], int x, int y);
+void getMKInput(wchar_t mk[], int x, int y,int th=0);
 //Note:tenplate: chỉ được định nghĩa trong file.h
 template<class T>
 void deleteLinkList(T* head) {

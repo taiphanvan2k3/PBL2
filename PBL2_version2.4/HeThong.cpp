@@ -157,7 +157,20 @@ void HeThong::SignUp() {
 		setcolor(7);
 		wcout << L"Tài khoản:";
 		setcolor(6);
-		_getws_s(tk);
+		bool check = true;
+		do {
+			if (!check) {
+				gotoxy(40, 5);
+				wcout << L"tài khoản không được bỏ trống.";
+				Sleep(1000);
+				gotoxy(40, 5);
+				for (int i = 0; i < 31; i++)
+					wcout << L" ";
+				gotoxy(40, 5);
+			}
+			check = false;
+			_getws_s(tk);
+		} while (wcslen(tk) == 0);
 		temp = this->listUser->search(tk);
 		if (temp != NULL) {
 			gotoxy(x + 10, y);
@@ -177,7 +190,7 @@ void HeThong::SignUp() {
 	wchar_t mk[30];
 	wcout << L"Mật khẩu:";
 	setcolor(6);
-	getMKInput(mk, 40, 6);
+	getMKInput(mk, 40, 6,1);
 	//Xác nhận lại mật khẩu
 	wchar_t confirmMk[30];
 	gotoxy(x, y + 2);
@@ -197,7 +210,7 @@ void HeThong::SignUp() {
 		}
 		setcolor(6);
 		//this->getMkInput(confirmMk, 43, 7);
-		getMKInput(confirmMk, 43, 7);
+		getMKInput(confirmMk, 43, 7,1);
 		check = false;
 	} while (wstrcmp(mk, confirmMk) != 0);
 	gotoxy(30, 8);
@@ -593,14 +606,13 @@ void HeThong::MenuUser(user* u) {
 					break;
 				}
 				if (lc != 2) {
-					if(lc!=7 && lc!=0 && lc!=6)
+					if (lc != 7 && lc != 0 && lc != 6)
 						system("pause");
 					else {
 						ShowCur(0);
 						int c = (int)_getch();
 					}
 				}
-					
 				in_tieu_de(task, x, y, w, b);
 			}
 		}
