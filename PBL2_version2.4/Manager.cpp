@@ -30,13 +30,16 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 		setcolor(4);
 		wprintf(L"advancedvocab.txt\n");
 		setcolor(3);
-		wprintf(L"Nhập tên file mà bạn muốn đọc:");
+		wprintf(L"Nhập tên file mà bạn muốn đọc (Enter để bỏ qua):");
 		wchar_t str[100];
 		setcolor(6);
 		_getws_s(str);
+		if (wcslen(str) == 0)
+			return;
 		wcscat_s(str, L".txt");
 		_wfopen_s(pFile, str, L"r,ccs=UTF-16LE");
-		while (*pFile == NULL) {
+		int cnt = 0;
+		while (*pFile == NULL && cnt<3) {
 			system("cls");
 			setcolor(3);
 			wprintf(L"Dữ liệu về từ vựng đang được lưu trong project với tên:");
@@ -48,6 +51,16 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 			_getws_s(str);
 			wcscat_s(str, L".txt");
 			_wfopen_s(pFile, str, L"r,ccs=UTF-16LE");
+			cnt++;
+		}
+
+		if (cnt == 3) {
+			system("cls");
+			setcolor(6);
+			wcout << L"\t\tThao tác bị huỷ vì bạn nhập tên file sai 3 lần liên tục.";
+			setcolor(7);
+			waitForType();
+			return;
 		}
 	}
 	else _wfopen_s(pFile, L"phienam.txt", L"r,ccs=UTF-16LE");
@@ -70,6 +83,7 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 			setcolor(3);
 			wcout << L"\t\tTừ vựng bạn vừa đọc từ file đã có sẵn trong hệ thống rồi." << endl;
 			setcolor(7);
+			waitForType();
 			return;
 		}
 		setcolor(3);
@@ -81,6 +95,7 @@ void Manager::docFileDanhSachTuVung(int phanQuyen) {
 		}
 		wcout << L"Hoàn tất." << endl;
 		setcolor(7);
+		waitForType();
 	}
 	fclose(f);
 }
@@ -144,14 +159,18 @@ void Manager::xoaTuVung() {
 void Manager::chinhSuaTuVung() {
 	wchar_t str[50];
 	setcolor(3);
-	wcout << L"Nhập từ vựng bạn cần CHỈNH SỬA:";
+	wcout << L"Nhập từ vựng bạn cần CHỈNH SỬA (Enter để huỷ thao tác này):";
 	setcolor(6);
 	_getws_s(str);
+	if (wcslen(str) == 0)
+		return;
 	trim(str);
 	vocab* tam = this->vocabHeThong->search(str);
 	if (tam == NULL) {
 		setcolor(4);
 		wcout << L"Từ vựng mà bạn đang muốn chỉnh sửa hiện tại chưa có trong TỪ ĐIỂN hệ thống." << endl;
+		ShowCur(0);
+		int c = _getch();
 	}
 	else {
 		setcolor(3);

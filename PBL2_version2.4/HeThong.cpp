@@ -99,13 +99,14 @@ account* HeThong::Login(int& phanQuyen) {
 	gotoxy(40, 3);
 	setcolor(3);
 	wcout << L"TỪ VỰNG ANH-VIỆT TFLAT";
-	wchar_t tk[30];
+	wchar_t tk[100];
 	wchar_t mk[30];
 	int x = 30, y = 5;
 	gotoxy(x, y);
 	setcolor(7);
 	wcout << L"Tài khoản:";
 	bool check = true;
+	int cnt = 0;
 	do {
 		if (!check) {
 			setcolor(6);
@@ -121,7 +122,15 @@ account* HeThong::Login(int& phanQuyen) {
 		_getws_s(tk);
 		formatInput(tk);
 		check = false;
-	} while (wcslen(tk) == 0);
+		cnt++;
+	} while (wcslen(tk) == 0 && cnt < 5);
+	if (cnt == 5) {
+		system("cls");
+		setcolor(6);
+		wcout << L"\t\t\t->Thao tác đăng nhập của bạn bị huỷ.";
+		Sleep(600);
+		return NULL;
+	}
 	gotoxy(x, y + 1);
 	setcolor(7);
 	wcout << L"Mật khẩu:";
@@ -210,6 +219,7 @@ void HeThong::SignUp() {
 	setcolor(7);
 	wcout << L"Xác nhận MK:";
 	bool check = true;
+	int cnt = 0;
 	do {
 		if (!check) {
 			gotoxy(43, 7);
@@ -222,11 +232,17 @@ void HeThong::SignUp() {
 			}
 		}
 		setcolor(6);
-		//this->getMkInput(confirmMk, 43, 7);
 		getMKInput(confirmMk, 43, 7,1);
 		check = false;
-	} while (wstrcmp(mk, confirmMk) != 0);
+		cnt++;
+	} while (wstrcmp(mk, confirmMk) != 0 && cnt<3);
+	
 	gotoxy(30, 8);
+	if (cnt == 3) {
+		setcolor(2);
+		wcout << L"->Thao tác bị huỷ do bạn nhập sai mật khẩu xác nhận 3 lần.";
+		return;
+	}
 	setcolor(2);
 	wcout << L"->Bạn vừa đăng kí thành công.";
 	temp = new user;
@@ -411,7 +427,7 @@ void HeThong::MenuManager() {
 					Còn với user thì mới có thông báo .....*/
 					break;
 				}
-				if (lc != 1 && lc != 2 && lc != 3 && lc!=4 && lc!=5) {
+				if (lc !=0 && lc != 1 && lc != 2 && lc != 3 && lc!=4 && lc!=5) {
 					ShowCur(0);
 					int temp = _getch();
 				}
@@ -613,18 +629,14 @@ void HeThong::MenuUser(user* u) {
 					setcolor(3);
 					wcout << L"\t\t\t\tĐã sao toàn bộ lưu dữ liệu của bạn." << endl;
 					wcout << L"\t\t\tTạm biệt bạn.Hẹn gặp lại bạn ở phiên đăng nhập tiếp theo.";
-					ShowCur(0);
-					int c = (int)_getch();
+					waitForType();
 					setcolor(0);
 					break;
 				}
 				if (lc != 2) {
-					if (lc != 7 && lc != 0 && lc != 6)
+					if (lc != 7 && lc != 0 && lc != 6 && lc != 1)
 						system("pause");
-					else {
-						ShowCur(0);
-						int c = (int)_getch();
-					}
+					else waitForType();
 				}
 				in_tieu_de(task, x, y, w, b);
 			}

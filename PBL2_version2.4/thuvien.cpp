@@ -332,3 +332,8 @@ void getMKInput(wchar_t mk[], int x, int y,int th) {
 		}
 	}
 }
+
+void waitForType() {
+	ShowCur(0);
+	int c = _getch();
+}

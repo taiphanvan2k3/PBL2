@@ -145,6 +145,7 @@ void user::traCuuTuVungVietAnh() {
 	wstring str;
 	setcolor(6);
 	bool check = true;
+	int cnt = 0;
 	do {
 		if (!check) {
 			gotoxy(25, 3);
@@ -156,8 +157,15 @@ void user::traCuuTuVungVietAnh() {
 			gotoxy(25, 3);
 		}
 		check = false;
+		cnt++;
 		getline(wcin, str);
-	} while (str.size() == 0);
+	} while (str.size() == 0 && cnt<5);
+	if (cnt == 5) {
+		system("cls");
+		setcolor(6);
+		wcout << L"\t->Thao tác bị huỷ vì dường như bạn không muốn tra cứu từ vựng.";
+		return;
+	}
 	formatInput(str);
 	setcolor(3);
 	wcout << L"->Kết quả tìm kiếm:";

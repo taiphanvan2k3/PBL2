@@ -43,6 +43,8 @@ void gotoxy(int x, int y);
 void ShowCur(int CursorVisibility);
 //Lấy mật khẩu input và in ra dưới dạng *
 void getMKInput(wchar_t mk[], int x, int y,int th=0);
+//Hàm waitForType để dừng màn hình chờ nhập bất kì phím nào thôi
+void waitForType();
 //Note:tenplate: chỉ được định nghĩa trong file.h
 template<class T>
 void deleteLinkList(T* head) {

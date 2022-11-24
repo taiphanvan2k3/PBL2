@@ -23,12 +23,12 @@ void HashtableVocab::deleteVocab(wstring key) {
 		after = after->next;
 	}
 	if (after == NULL) {
-		setcolor(4);
+		setcolor(6);
 		wprintf(L"Từ vựng bạn muốn xoá không có trong từ điển.\n");
 	}
 	else {
 		deleted++;
-		setcolor(2);
+		setcolor(6);
 		wprintf(L"Đã xoá từ vựng:");
 		after->display();
 		wprintf(L" ra khỏi từ điển.\n");
