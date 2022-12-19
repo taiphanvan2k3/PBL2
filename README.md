@@ -11,6 +11,6 @@
   (vd gửi Đi thì ko tìm thấy) bằng cách sửa lại hàm convert (setLocale(...))
   + Khi đăng nhập mà tài khoản hoặc mật khẩu không nhập gì mà bấm enter là không
   cho phép
- - 19/11/2022: update giao diện phần hiển thị từ điển hệ thống, sửa chức năng đổi mk cho admin và dùng mk mới đó 
+ - 19/12/2022: update giao diện phần hiển thị từ điển hệ thống, sửa chức năng đổi mk cho admin và dùng mk mới đó 
 cho lần đăng nhập tiếp theo,tại chức năng thêm từ vựng của người dùng cho phép người dùng thêm thủ công
 ![PBL2](https://user-images.githubusercontent.com/108993284/203814411-c69bb3bc-085a-453a-b06e-4bf71f221d16.png)
