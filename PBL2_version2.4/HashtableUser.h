@@ -18,7 +18,7 @@ public:
 	void syncVocab(vocab* updatedVocab);
 
 	//Ghi tk,mk vào lại chính file mà ta đã đọc thông tin tk,mk user lúc chạy chương trình
-	void ghiFileTkMk();
+	void ghiFileTkMk(wchar_t* tkAdmin,wchar_t* mkAdmin);
 	//Sai
 	/*
 		void ghiFileAlbumUser() {

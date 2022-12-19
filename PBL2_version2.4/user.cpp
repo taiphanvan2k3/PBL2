@@ -26,18 +26,22 @@ HashtableVocab* user::getAlbum() {
 }
 
 //Biến th này chỉ cần thiết bên manager, vì ta đang kế thừa từ lớp account nên phải override lại
-//đúng phương thức temTuVung này như trong class cha
+//đúng phương thức themTuVung này như trong class cha
 void user::themTuVung(vocab* v, int th) {
+	setcolor(6);
 	wprintf(L"Bạn cần điền các thông tin sau để hoàn tất việc thêm từ vựng vào ALBUM của bạn:\n");
 	wprintf(L"Mời bạn nhập từ vựng:");
 	wchar_t str[30];
+	setcolor(7);
 	_getws_s(str);
-
 	formatInput(str);
 	convert(str);
 	vocab* tam = this->album->search(str);
-	if (tam != NULL)
+	if (tam != NULL) {
 		wprintf(L"Từ vựng bạn muốn thêm đã có trong album của bạn rồi.\n");
+		ShowCur(0);
+		int c = _getch();
+	}
 	else {
 		v->setEnglish(str);
 		v->nhap_tt_1_vocab();

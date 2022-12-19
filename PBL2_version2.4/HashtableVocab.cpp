@@ -60,8 +60,28 @@ void HashtableVocab::InTheoTrang(vocab* ds, int n, int page, int page_max) {
 	}
 
 	wcout << L"┐";
-	wcout << "\n\t" << left << setw(6) << L"│  STT";
-	wcout << L"\t│" << left << setw(20) << L"     Tiếng Anh" << L"│" << left << setw(20) << L"       Phiên âm" << L"│" << left << setw(15) << L"   Từ loại" << L"│" << left << setw(35) << L"          Nghĩa Tiếng Việt" << L"│" << endl;
+	//wcout << "\n\t" << left << setw(6) << L"│  STT";
+	wcout << L"\n\t│" ;
+	setcolor(3);
+	wcout << left << setw(6)<<L"  STT";
+	setcolor(7);
+	wcout << L"\t│";
+	setcolor(3);
+	wcout << left << setw(20) << L"     Tiếng Anh";
+	setcolor(7);
+	wcout << L"│";
+	setcolor(3);
+	wcout << left << setw(20) << L"       Phiên âm";
+	setcolor(7);
+	wcout << L"│";
+	setcolor(3);
+	wcout << left << setw(15) << L"   Từ loại";
+	setcolor(7);
+	wcout << L"│";
+	setcolor(3);
+	wcout << left << setw(35) << L"          Nghĩa Tiếng Việt";
+	setcolor(7);
+	wcout<< L"│" << endl;
 	wcout << L"\t├";
 	for (int i = 1; i <= 101; i++) {
 		if (i == 8 || i == 29 || i == 50 || i == 66)
@@ -72,7 +92,10 @@ void HashtableVocab::InTheoTrang(vocab* ds, int n, int page, int page_max) {
 
 	//In từ vựng
 	for (int i = 20 * (page - 1); i < 20 * page && i < n; i++) {
-		wcout << L"\t│" << left << setw(6) << (i + 1);
+		wcout << L"\t│";
+		setcolor(2);
+		wcout<< left << setw(6) << (i + 1);
+		setcolor(7);
 		/*display(2): ứng với cách in từ vựng theo dạng bảng,
 		còn display(1) để in thông tin từ vựng theo kiểu tìm kiếm từ vựng*/
 		ds[i].display(2);

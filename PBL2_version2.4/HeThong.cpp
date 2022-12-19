@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"HeThong.h"
-void HeThong::splitTk_Mk(user* u, wchar_t* str) {
+bool HeThong::splitTk_Mk(user* u, wchar_t* str) {
 	wchar_t Ds[2][100];
 	int len = (int)wcslen(str);
 	int idx = 0, len_sub = 0;
@@ -15,8 +15,15 @@ void HeThong::splitTk_Mk(user* u, wchar_t* str) {
 		if (i == len - 1)
 			Ds[idx][len_sub] = L'\0';
 	}
+	if (wstricmp(Ds[0], L"admin001@gmail.com") ==0 ) {
+		//Khi gặp tài khoản là như vậy thì đó là của admin do đó ta return false
+		//để ở ngoài kia ta không thêm user *u vào hashtableUser
+		manager->setMK(Ds[1]);
+		return false;
+	}
 	u->setTK(Ds[0]);
 	u->setMK(Ds[1]);
+	return true;
 }
 
 HeThong::HeThong() {
@@ -89,8 +96,9 @@ void HeThong::docFileListAccount() {
 		if (str[wcslen(str) - 1] == L'\n')
 			str[wcslen(str) - 1] = L'\0';
 		user* u = new user;
-		this->splitTk_Mk(u, str);
-		this->listUser->insert(u);
+		bool check = this->splitTk_Mk(u, str);
+		if(check)
+			this->listUser->insert(u);
 	}
 	fclose(f);
 }
@@ -310,8 +318,7 @@ void HeThong::LuuDuLieu() {
 	this->manager->getVocabHeThong()->ghiFileVocab(filePhienAm);
 
 	//Lưu toàn bộ tk-mk user xuống file
-	this->listUser->ghiFileTkMk();
-
+	this->listUser->ghiFileTkMk(manager->getTK(),manager->getMK());
 	//Lưu các từ vựng đóng góp mà admin chưa thực hiện việc thêm xuống file
 	this->ghiFileListContribute();
 
@@ -493,93 +500,111 @@ void HeThong::MenuUser(user* u) {
 					u->traCuuTuVungVietAnh();
 				//Thêm từ vựng vào album cá nhân.
 				else if (lc == 2) {
-					vocab* ds = NULL;
-					int n;
-					u->getVocabHeThong()->convertToArray(ds, n);
-					quicksort(ds, 0, n - 1);
-					bool* checkStatus = new bool[n];
-					for (int i = 0; i < n; i++) {
-						vocab* temp = u->getAlbum()->search(ds[i].getEnglish());
-						if (temp != NULL)
-							checkStatus[i] = 1;
-						else checkStatus[i] = 0;
+					int lc;
+					setcolor(3);
+					wcout << L"\t\t\tChọn hình thức để thêm từ vựng vào album của bạn:" << endl;
+					setcolor(2);
+					wcout << L"\t\t\t1.Thêm từ vựng thủ công." << endl;
+					wcout << L"\t\t\t2.Thêm từ vựng từ nguồn từ vựng của hệ thống." << endl;
+					setcolor(6);
+					wcout << L"->Lựa chọn của bạn là:";
+					setcolor(7);
+					wcin >> lc;
+					int c = getwchar();
+					system("cls");
+					if (lc == 1) {
+						vocab* v = new vocab;
+						u->themTuVung(v);
 					}
-					int x = 1;
-					int ycu = 4, yp = 4;
-					gotoxy(1, 4);
-					wcout << L"└──>";
-					gotoxy(1, 1);
-					//u->themTuVungNewVersion(ds, n, checkStatus);
-					int KT = 1;
-					int page_curr = 1, page_max = n / 20;
-					if (page_max % 20 != 0)
-						page_max++;
-					int* numOfPage = new int[page_max + 1];
-					setPage(numOfPage, n);
-					u->themTuVungVersion(ds, n, page_curr, checkStatus);
-					while (1) {
-						ShowCur(0);
-						if (KT) {
-							gotoxy(x, ycu);
-							wcout << L"    ";
-							ycu = yp;
-							KT = 0;
-							gotoxy(x, yp);
-							wcout << L"└──>";
+					else {
+						vocab* ds = NULL;
+						int n;
+						u->getVocabHeThong()->convertToArray(ds, n);
+						quicksort(ds, 0, n - 1);
+						bool* checkStatus = new bool[n];
+						for (int i = 0; i < n; i++) {
+							vocab* temp = u->getAlbum()->search(ds[i].getEnglish());
+							if (temp != NULL)
+								checkStatus[i] = 1;
+							else checkStatus[i] = 0;
 						}
-						if (_kbhit()) {
-							char c = _getch();
-							if (c == 32 || c == 27)
-								break;
-							KT = 1;
-							//Điều hướng đi lên
-							if (c == 72) {
-								if (yp == 4)
-									yp = 3 + numOfPage[page_curr];
-								else yp--;
+						int x = 1;
+						int ycu = 4, yp = 4;
+						gotoxy(1, 4);
+						wcout << L"└──>";
+						gotoxy(1, 1);
+						//u->themTuVungNewVersion(ds, n, checkStatus);
+						int KT = 1;
+						int page_curr = 1, page_max = n / 20;
+						if (page_max % 20 != 0)
+							page_max++;
+						int* numOfPage = new int[page_max + 1];
+						setPage(numOfPage, n);
+						u->themTuVungVersion(ds, n, page_curr, checkStatus);
+						while (1) {
+							ShowCur(0);
+							if (KT) {
+								gotoxy(x, ycu);
+								wcout << L"    ";
+								ycu = yp;
+								KT = 0;
+								gotoxy(x, yp);
+								wcout << L"└──>";
 							}
-							else if (c == 80) {
-								if (yp == numOfPage[page_curr] + 3)
-									yp = 4;
-								else yp++;
-							}
-							else if (c == 75) {
-								if (page_curr != 1) {
+							if (_kbhit()) {
+								char c = _getch();
+								if (c == 32 || c == 27)
+									break;
+								KT = 1;
+								//Điều hướng đi lên
+								if (c == 72) {
+									if (yp == 4)
+										yp = 3 + numOfPage[page_curr];
+									else yp--;
+								}
+								else if (c == 80) {
+									if (yp == numOfPage[page_curr] + 3)
+										yp = 4;
+									else yp++;
+								}
+								else if (c == 75) {
+									if (page_curr != 1) {
+										system("cls");
+										gotoxy(1, 1);
+										u->themTuVungVersion(ds, n, --page_curr, checkStatus);
+										yp = 4;
+									}
+								}
+								else if (c == 77) {
+									if (page_curr < page_max) {
+										system("cls");
+										gotoxy(1, 1);
+										u->themTuVungVersion(ds, n, ++page_curr, checkStatus);
+										yp = 4;
+									}
+								}
+								else if (c == 13) {
+									system("cls");
+									/*Vì mỗi trang sẽ bắt đầu với số thứ tự khác nhau
+									để tìm chính xác ra đang ở từ vựng nào trong mảng
+									ta cần cộng 1 lượng (offset = yp-4) vào 20*(page_curr-1)*/
+									int idx = 20 * (page_curr - 1) + (yp - 4);
+									checkStatus[idx] = 1 - checkStatus[idx];
+									if (checkStatus[idx]) {
+										setcolor(2);
+										wcout << L"Vừa thêm từ vựng [" << ds[idx].getEnglish() << L"] vào album của bạn." << endl;
+										setcolor(7);
+										vocab* v = new vocab;
+										*v = ds[idx];
+										u->getAlbum()->insert(v);
+										ShowCur(0);
+										int c = _getch();
+									}
+									else u->getAlbum()->deleteVocab(ds[idx].getEnglish());
 									system("cls");
 									gotoxy(1, 1);
-									u->themTuVungVersion(ds, n, --page_curr, checkStatus);
-									yp = 4;
+									u->themTuVungVersion(ds, n, page_curr, checkStatus);
 								}
-							}
-							else if (c == 77) {
-								if (page_curr < page_max) {
-									system("cls");
-									gotoxy(1, 1);
-									u->themTuVungVersion(ds, n, ++page_curr, checkStatus);
-									yp = 4;
-								}
-							}
-							else if (c == 13) {
-								system("cls");
-								/*Vì mỗi trang sẽ bắt đầu với số thứ tự khác nhau
-								để tìm chính xác ra đang ở từ vựng nào trong mảng
-								ta cần cộng 1 lượng (offset = yp-4) vào 20*(page_curr-1)*/
-								int idx = 20 * (page_curr - 1) + (yp - 4);
-								checkStatus[idx] = 1 - checkStatus[idx];
-								if (checkStatus[idx]) {
-									setcolor(2);
-									wcout << L"Vừa thêm từ vựng [" << ds[idx].getEnglish() << L"] vào album của bạn." << endl;
-									setcolor(7);
-									vocab* v = new vocab;
-									*v = ds[idx];
-									u->getAlbum()->insert(v);
-									ShowCur(0);
-									int c = _getch();
-								}
-								else u->getAlbum()->deleteVocab(ds[idx].getEnglish());
-								system("cls");
-								gotoxy(1, 1);
-								u->themTuVungVersion(ds, n, page_curr, checkStatus);
 							}
 						}
 					}

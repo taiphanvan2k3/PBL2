@@ -126,9 +126,33 @@ void vocab::display(int th) {
 			wprintf(L"%s,", vn[i]);
 		wprintf(L"%s.", vn[sl - 1]);
 	}
-	else
-		wcout << L"\t│" << left << setw(20) << eng << L"│" << left << setw(20) << phienam << L"│" << left << setw(15) << tuloai << L"│" << left << setw(35) << toStringListVN() << L"│";
-
+	else {
+		wcout << L"\t│";
+		setcolor(6);
+		wcout << left << setw(20) << eng;
+		setcolor(7);
+		wcout << L"│";
+		setcolor(2);
+		wcout << left << setw(20) << phienam;
+		setcolor(7);
+		wcout << L"│";
+		if (wstrcmp(tuloai, L"noun") == 0)
+			setcolor(3);
+		if (wstrcmp(tuloai, L"adjective") == 0)
+			setcolor(5);
+		if (wstrcmp(tuloai, L"verb") == 0)
+			setcolor(4);
+		if (wstrcmp(tuloai, L"adverb") == 0)
+			setcolor(2);
+		wcout << left << setw(15) << tuloai;
+		setcolor(7);
+		wcout << L"│";
+		setcolor(6);
+		wcout << left << setw(35) << toStringListVN();
+		setcolor(7);
+		wcout << L"│";
+		//wcout << L"\t│" << left << setw(20) << eng << L"│" << left << setw(20) << phienam << L"│" << left << setw(15) << tuloai << L"│" << left << setw(35) << toStringListVN() << L"│";
+	}
 }
 
 //Bỏ phương thức này

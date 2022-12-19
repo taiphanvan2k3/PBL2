@@ -97,7 +97,7 @@ void HashtableUser::syncVocab(vocab* updatedVocab) {
 }
 
 //Ghi tk,mk vào lại chính file mà ta đã đọc thông tin tk,mk user lúc chạy chương trình
-void HashtableUser::ghiFileTkMk() {
+void HashtableUser::ghiFileTkMk(wchar_t* tkAdmin,wchar_t* mkAdmin) {
 	FILE* f = NULL;
 	FILE** pFile = &f;
 	_wfopen_s(pFile, L"account\\listAccount.txt", L"w,ccs=UTF-16LE");
@@ -105,6 +105,7 @@ void HashtableUser::ghiFileTkMk() {
 	int idx = 0, n = num - deleted;
 	if (f == NULL)
 		return;
+	fwprintf(f, L"%s,%s\n", tkAdmin, mkAdmin);
 	while (l != NULL) {
 		user* tam = heads[l->getData()];
 		while (tam != NULL) {

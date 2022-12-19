@@ -119,6 +119,8 @@ void Manager::themTuVung(vocab* v, int th) {
 		setcolor(4);
 		wprintf(L"Từ vựng bạn muốn thêm đã có trong từ điển rồi.\n");
 		setcolor(7);
+		ShowCur(0);
+		int c = _getch();
 	}	
 	else {
 		listContribute->erase(str);

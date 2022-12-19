@@ -10,7 +10,7 @@ private:
 	void docFileListContribute();
 	void ghiFileListContribute();
 public:
-	void splitTk_Mk(user* u, wchar_t* str);
+	bool splitTk_Mk(user* u, wchar_t* str);
 	HeThong();
 	~HeThong();
 	HashtableUser* getListUser();
