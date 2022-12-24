@@ -188,6 +188,7 @@ void HeThong::SignUp() {
 		wcout << L"Tài khoản:";
 		setcolor(6);
 		bool check = true;
+		int cnt = 0;
 		do {
 			if (!check) {
 				gotoxy(40, 5);
@@ -200,7 +201,15 @@ void HeThong::SignUp() {
 			}
 			check = false;
 			_getws_s(tk);
-		} while (wcslen(tk) == 0);
+			cnt++;
+		} while (wcslen(tk) == 0 && cnt < 3);
+		if (cnt == 3) {
+			system("cls");
+			setcolor(6);
+			wcout << L"\t\t\t->Thao tác đăng kí của bạn bị huỷ vì bạn đã \n\t\t\tkhông tiến hành nhập tài khoản 3 lần liên tiếp.";
+			Sleep(1000);
+			return;
+		}
 		temp = this->listUser->search(tk);
 		if (temp != NULL) {
 			gotoxy(x + 10, y);

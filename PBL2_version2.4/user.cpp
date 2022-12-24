@@ -38,7 +38,9 @@ void user::themTuVung(vocab* v, int th) {
 	convert(str);
 	vocab* tam = this->album->search(str);
 	if (tam != NULL) {
+		setcolor(3);
 		wprintf(L"Từ vựng bạn muốn thêm đã có trong album của bạn rồi.\n");
+		setcolor(7);
 		ShowCur(0);
 		int c = _getch();
 	}
@@ -183,9 +185,10 @@ void user::xoaTuVung() {
 		wcout << L"Thao tác này không hợp lệ do album của bạn hiện tại đang rỗng." << endl;
 		return;
 	}
-
+	setcolor(6);
 	wchar_t str[50];
 	wcout << L"Nhập từ vựng bạn cần XOÁ:";
+	setcolor(7);
 	_getws_s(str);
 	formatInput(str);
 	this->album->deleteVocab(str);

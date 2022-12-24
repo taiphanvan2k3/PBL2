@@ -138,7 +138,7 @@ void account::doiMatKhau() {
 	if (cnt == 3) {
 		system("cls");
 		setcolor(3);
-		wcout << L"\t\t\t\tBạn đã nhập sai mật khẩu xác nhận 3 lần. \n\t\t\tPhiên đổi mật khẩu này bị huỷ.\n";
+		wcout << L"\t\t\t\t  Bạn đã nhập sai mật khẩu xác nhận 3 lần. \n\t\t\t\t\tPhiên đổi mật khẩu này bị huỷ.\n";
 		setcolor(7);
 		return;
 	}
