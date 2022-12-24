@@ -182,7 +182,9 @@ void user::traCuuTuVungVietAnh() {
 //User chỉ có quyền xoá từ vựng trong album của họ thôi chứ không có quyền xoá vào từ vựng hệ thống
 void user::xoaTuVung() {
 	if (this->album->getSoLuong() == 0) {
-		wcout << L"Thao tác này không hợp lệ do album của bạn hiện tại đang rỗng." << endl;
+		setcolor(3);
+		wcout << L"\tThao tác này không hợp lệ do album của bạn hiện tại đang rỗng." << endl;
+		setcolor(7);
 		return;
 	}
 	setcolor(6);
@@ -195,8 +197,11 @@ void user::xoaTuVung() {
 }
 
 void user::InTuVungAlbum() {
-	if (this->album->getSoLuong() == 0)
-		wcout << L"\t\tAlbum từ vựng của bạn hiện tại đang trống." << endl;
+	if (this->album->getSoLuong() == 0) {
+		setcolor(3);
+		wcout << L"\t\t\tAlbum từ vựng của bạn hiện tại đang trống." << endl;
+		setcolor(7);
+	}
 	else album->InTuVungTangDan();
 }
 

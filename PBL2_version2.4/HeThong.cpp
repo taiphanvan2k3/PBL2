@@ -667,10 +667,15 @@ void HeThong::MenuUser(user* u) {
 					setcolor(0);
 					break;
 				}
-				if (lc != 2) {
-					if (lc != 7 && lc != 0 && lc != 6 && lc != 1)
-						system("pause");
-					else waitForType();
+				ShowCur(0);
+				if (lc != 2 && lc!=3) {
+					if (lc == 4 && u->getAlbum()->getSoLuong() == 0)
+						waitForType();
+					else if (lc != 4) {
+						if (lc != 7 && lc != 0 && lc != 6 && lc != 1)
+							system("pause");
+						else waitForType();
+					}
 				}
 				in_tieu_de(task, x, y, w, b);
 			}
