@@ -96,7 +96,12 @@ void HashtableMeaning::traCuu(wstring str) {
 	}
 	else {
 		while (temp) {
-			wcout << "\n\t+" << temp->getTuLoai() << ":" << temp->getEnglish();
+			/*Trên danh sách liên kết của các vocab có cùng id sau khi băm trường vn của chúng ra
+			thì đôi lúc 2 từ khác nhau về nghĩa tiếng Việt nhưng do băm ra với cùng một id nên 
+			chúng vẫn cùng nằm trên một danh sách liên kết. Do đó trước khi in ra một node thì có thêm bước 
+			kiểm tra node đó có trường vn giống với từ tiếng Việt mà ta đi tìm kiếm hay không mới in ra.*/
+			if(temp->toStringListVN() == str)
+				wcout << "\n\t+" << temp->getTuLoai() << ":" << temp->getEnglish();
 			temp = temp->next;
 		}
 		wcout << endl;
