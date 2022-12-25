@@ -119,9 +119,13 @@ void user::traCuuTuVungAnhViet() {
 	wcout << L"===========TRA CỨU TỪ VỰNG ANH-VIỆT===========" << endl;
 	wchar_t str[30];
 	setcolor(3);
-	wcout << L"Nhập từ vựng bạn cần TRA CỨU :";
+	wcout << L"Nhập từ vựng bạn cần TRA CỨU (Enter để huỷ thao tác):";
 	setcolor(6);
 	_getws_s(str);
+	if (wcslen(str) == 0) {
+		wcout << L"=>Thao tác tra cứu bị huỷ." << endl;
+		return;
+	}
 	formatInput(str);
 	convert(str);
 	vocab* tam = this->vocabHeThong->search(str);

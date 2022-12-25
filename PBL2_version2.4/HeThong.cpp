@@ -16,8 +16,8 @@ bool HeThong::splitTk_Mk(user* u, wchar_t* str) {
 			Ds[idx][len_sub] = L'\0';
 	}
 	if (wstricmp(Ds[0], L"admin001@gmail.com") ==0 ) {
-		//Khi gặp tài khoản là như vậy thì đó là của admin do đó ta return false
-		//để ở ngoài kia ta không thêm user *u vào hashtableUser
+		/*khi gặp tài khoản là như vậy thì đó là của admin do đó ta return false
+		để ở ngoài kia ta không thêm user *u vào hashtableuser*/
 		manager->setMK(Ds[1]);
 		return false;
 	}

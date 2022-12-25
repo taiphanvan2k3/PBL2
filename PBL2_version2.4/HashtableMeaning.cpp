@@ -3,7 +3,7 @@
 
 vocab* HashtableMeaning::search(wstring str) {
 	/*overiding lại phương thức này ở lớp cha
-	vì ta chuẩn bị xây dựng class HashtableTemplate mà trong đó vocab có key là eng
+	vì ta đã xây dựng class Hashtable mà trong đó vocab có key là eng
 	trong khi bây giờ HashtableMeaning đang mong muốn key là vn*/
 	convert(str);
 	int id = hash(str);
@@ -22,8 +22,8 @@ Nếu chưa thì return false ( chưa tồn tại), ta chuẩn bị thêm vocab 
 Ngược lại, duyệt trên dslk của temp xem có node nào có eng = x->getEng() không, nếu có thì
 đã tồn tại =>return true
 vd ban đầu có node [di chuyển]->cut, bây giờ lại thêm vào vocab (cut,di chuyển) thì không cho thêm
-Tránh trường hợp không check điều kiện thì khi tra cứu từ điển Việt-Anh với từ bàn ăn thì nó hiển
-thị ra 2 từ cut khi ta tra cứu từ cut.
+Tránh trường hợp không check điều kiện thì khi tra cứu từ điển Việt-Anh với từ "di chuyển" thì nó hiển
+thị ra kết quả là 2 từ "cut" khi ta tra cứu Việt-Anh với từ cut.
 ->Chỉ cho phép thêm vào khi thêm vào HashtableMeaning (di chuyển,move)
 */
 bool HashtableMeaning::checkIsExist(vocab* x) {
