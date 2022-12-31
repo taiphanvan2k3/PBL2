@@ -1,4 +1,4 @@
-# PBL2.version2_4
+# PBL2_final version.
 - Ngày 12/11/2022:
   + Thêm destructor để giải phóng vùng nhớ cho class HeThong
   + Chỉnh sửa chức năng chỉnh sửa từ vựng: khi thay đổi nghĩa 
